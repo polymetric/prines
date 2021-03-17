@@ -2,9 +2,9 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
-#include "boinc_api.h"
-
-#define OUTFILE "prines_out.txt"
+#include <inttypes.h>
+#include "boinc/boinc_api.h"
+#include "boinc/filesys.h"
 
 int is_prime(uint64_t n) {
     uint64_t i;
@@ -41,6 +41,7 @@ FILE *resolve_fopen(char *path, char *mode) {
     return boinc_fopen(resolved_name, mode);
 }
 
+// end is an exclusive bound, like a for loop
 uint64_t start = 0;
 uint64_t end = 0;
 
@@ -53,23 +54,40 @@ int main(int argc, char **argv) {
     // boinc init
     BOINC_OPTIONS options;
 
-    boinc_options_defaults(options);
+    // defaults
+//    options.main_program = 1;
+//    options.check_heartbeat = 1;
+//    options.handle_process_control = 1;
+//    options.send_status_msgs = 1;
+//    options.direct_process_action = 1;
+//    options.normal_thread_priority = 0;
+//    options.multi_thread = 0;
+//    options.multi_process = 0;
+
+    options.main_program = 1;
+    options.check_heartbeat = 1;
+    options.handle_process_control = 1;
+    options.send_status_msgs = 1;
+    options.direct_process_action = 1;
+    options.normal_thread_priority = 0;
     options.multi_thread = 0;
+    options.multi_process = 0;
 
     boinc_init_options(&options);
 
-
-    FILE *prines_out = resolve_fopen(OUTFILE, "wb");
+    FILE *prines_out = resolve_fopen("prinesout.txt", "wb");
     int done = 0;
     uint64_t n;
     n = start;
     while (!done) {
         if (is_prime(n)) {
-            fprintf(prines_out, "%llu\n", n);
+            fprintf(prines_out, "%"PRIu64"\n", n);
         }
+        boinc_fraction_done((double) n - start / end - start);
 
-        if (n > end) {
+        if (n >= end) {
             done = 1;
         }
+        n++;
     }
 }
