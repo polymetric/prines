@@ -81,9 +81,9 @@ int main(int argc, char **argv) {
     n = start;
     while (!done) {
         if (is_prime(n)) {
-            fprintf(prines_out, "%"PRIu64"\n", n);
+            fprintf(prines_out, "%" PRIu64 "\n", n);
         }
-        boinc_fraction_done((double) n - start / end - start);
+        boinc_fraction_done((double) (n - start) / (end - start));
 
         if (n >= end) {
             done = 1;
