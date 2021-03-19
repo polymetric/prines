@@ -6,17 +6,22 @@
 #include "boinc/boinc_api.h"
 #include "boinc/filesys.h"
 
-int is_prime(uint64_t n) {
+int is_prime_6k(uint64_t n) {
     uint64_t i;
 
-    if (n <= 1) {
+    if (n <= 3) {
+        return n > 1;
+    }
+    if (n % 2 == 0 || n % 3 == 0) {
         return 0;
     }
 
-    for (i = 2; i < n - 1; i++) {
-        if (n % i == 0) {
+    i = 5;
+    while (i * i <= n) {
+        if (n % i == 0 || n  % (i + 2) == 0) {
             return 0;
         }
+        i += 6;
     }
 
     return 1;
@@ -80,7 +85,7 @@ int main(int argc, char **argv) {
     uint64_t n;
     n = start;
     while (!done) {
-        if (is_prime(n)) {
+        if (is_prime_6k(n)) {
             fprintf(prines_out, "%" PRIu64 "\n", n);
         }
         boinc_fraction_done((double) (n - start) / (end - start));
