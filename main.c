@@ -90,4 +90,5 @@ int main(int argc, char **argv) {
         }
         n++;
     }
+    boinc_finish(0);
 }
