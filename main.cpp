@@ -3,11 +3,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include <inttypes.h>
+#include <gmp.h>
+#include <gmpxx.h>
 #include "boinc/boinc_api.h"
 #include "boinc/filesys.h"
 
-int is_prime_6k(uint64_t n) {
-    uint64_t i;
+int is_prime_6k(mpz_class& n) {
+    mpz_class i;
 
     if (n <= 3) {
         return n > 1;
@@ -32,10 +34,6 @@ void fail(char *msg) {
     boinc_finish(-1);
 }
 
-uint64_t int_parse(char *a) {
-    return atoi(a);
-}
-
 FILE *resolve_fopen(char *path, char *mode) {
     char resolved_name[256];
     if(boinc_resolve_filename(path, resolved_name, 256)) {
@@ -47,13 +45,13 @@ FILE *resolve_fopen(char *path, char *mode) {
 }
 
 // end is an exclusive bound, like a for loop
-uint64_t start = 0;
-uint64_t end = 0;
+mpz_class start = 0;
+mpz_class end = 0;
 
 int main(int argc, char **argv) {
     for (int i = 0; i < argc; i++) {
-        if (strcmp(argv[i], "--start") == 0) { start = int_parse(argv[++i]); }
-        if (strcmp(argv[i], "--end") == 0) { end = int_parse(argv[++i]); }
+        if (strcmp(argv[i], "--start") == 0) { start = argv[++i]; }
+        if (strcmp(argv[i], "--end") == 0) { end = argv[++i]; }
     }
 
     // boinc init
@@ -82,13 +80,17 @@ int main(int argc, char **argv) {
 
     FILE *prines_out = resolve_fopen("prinesout.txt", "wb");
     int done = 0;
-    uint64_t n;
+    mpz_class n;
     n = start;
     while (!done) {
         if (is_prime_6k(n)) {
-            fprintf(prines_out, "%" PRIu64 "\n", n);
+            gmp_fprintf(prines_out, "%Zd\n", n);
         }
-        boinc_fraction_done((double) (n - start) / (end - start));
+        mpz_class test_a = (n - start);
+        mpz_class test_b = (end - start);
+        double progress = test_a.get_d() / test_b.get_d();
+        //printf("%6.3f\n", progress * 100);
+        boinc_fraction_done(progress);
 
         if (n >= end) {
             done = 1;
