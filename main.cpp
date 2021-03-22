@@ -83,6 +83,7 @@ int main(int argc, char **argv) {
     mpz_class n;
     n = start;
     while (!done) {
+        //gmp_printf("testing primality of %Zd\n", n);
         if (is_prime_6k(n)) {
             gmp_fprintf(prines_out, "%Zd\n", n);
         }
