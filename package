@@ -1,0 +1,48 @@
+#!/bin/bash
+
+gen_basic_version() {
+    filename=$1
+    cp ${call_dir}/version_template.xml ./version.xml
+    sed -i "s/{EXEC_NAME}/${filename}/" ./version.xml
+}
+
+add_version() {
+    set -eu
+    call_dir=$(pwd)
+    name=$1
+    version=$2
+    arch=$3
+    executable=${call_dir}/$4
+    apps_root=${call_dir}/apps
+    version_dir=${apps_root}/${name}/${version}/${arch}
+
+    if [ ! -e $executable ]; then
+        echo "executable file does not exist"
+        exit 1
+    fi
+
+    mkdir -p ${version_dir}
+    pushd ${version_dir}
+        cp ${executable} .
+        gen_basic_version $(ls .)
+    popd
+}
+
+case $1 in
+    add-version)
+        if [ "$#" -ne 5 ]; then
+            echo "usage: ./package add-version <appname> <version> <arch> <file>"
+            exit 1
+        fi
+        add_version $2 $3 $4 $5
+        echo "done"
+    ;;
+    archive)
+        if [ -z $2 ]; then
+            echo "need name of archive"
+            exit 1
+        fi
+        tar cJvf $2.tar.xz apps/
+        echo "done"
+   ;;
+esac
