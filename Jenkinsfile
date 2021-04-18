@@ -12,7 +12,7 @@ pipeline {
             steps {
                 sh 'mkdir -p build'
                 sh 'set -e \
-                    && apt-get update
+                    && apt-get update \
                     && apt-get install \
                         libgmp-dev \
                     && rm -rf /var/lib/apt/lists/
