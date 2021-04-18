@@ -12,7 +12,7 @@ pipeline {
             steps {
                 sh 'mkdir -p build'
                 sh "\$CXX main.cpp -o build/prines_${VERSION}_${CROSS_TRIPLE} -I./include -lboinc -lboinc_api -lgmp -lgmpxx -Ofast"
-                stash includes: "build/prines_${VERSION}_${CROSS_TRIPLE}.exe", name 'bin linux x64'
+                stash includes: "build/prines_${VERSION}_${CROSS_TRIPLE}.exe", name: 'bin linux x64'
             }
         }
         stage('build windows x64') {
@@ -23,7 +23,7 @@ pipeline {
             steps {
                 sh 'mkdir -p build'
                 sh "\$CXX main.cpp -o build/prines_${VERSION}_${CROSS_TRIPLE} -I./include -l:libboinc_api.a -l:libboinc.a -L/usr/local/lib/ -lstdc++ -static -static-libstdc++ -lgmp -lgmpxx -Ofast"
-                stash includes: "build/prines_${VERSION}_${CROSS_TRIPLE}.exe", name 'bin windows x64'
+                stash includes: "build/prines_${VERSION}_${CROSS_TRIPLE}.exe", name: 'bin windows x64'
             }
         }
         stage('build linux arm64') {
@@ -34,7 +34,7 @@ pipeline {
             steps {
                 sh 'mkdir -p build'
                 sh "\$CXX main.cpp -o build/prines_${VERSION}_${CROSS_TRIPLE} -I./include -lboinc -lboinc_api -lgmp -lgmpxx -Ofast"
-                stash includes: "build/prines_${VERSION}_${CROSS_TRIPLE}", name 'bin linux arm64'
+                stash includes: "build/prines_${VERSION}_${CROSS_TRIPLE}", name: 'bin linux arm64'
             }
         }
         stage('package') {
@@ -46,17 +46,20 @@ pipeline {
                 sh "./package add-version ${APPNAME} ${VERSION} windows_x86_64 build/prines_${VERSION}_x86_64-windos-gnu"
                 sh "./package add-version ${APPNAME} ${VERSION} windows_x86_64 build/prines_${VERSION}_x86_64-windos-gnu"
                 sh "./package archive ${APPNAME}_${VERSION}.tar.xz"
-                stash includes: "${APPNAME}_${VERSION}.tar.xz", name 'package'
+                stash includes: "${APPNAME}_${VERSION}.tar.xz", name: 'package'
             }
         }
     }
 
     post {
         always {
+            unstash 'bin linux x64'
+            unstash 'bin windows x64'
+            unstash 'bin linux arm64'
             archiveArtifacts artifacts: "build/prines_${VERSION}_x86_64-unknown-linux-gnu", fingerprint: true
             archiveArtifacts artifacts: "build/prines_${VERSION}_x86_64-windows-gnu", fingerprint: true
             archiveArtifacts artifacts: "build/prines_${VERSION}_aarch64-unknown-linux-gnu", fingerprint: true
-            archiveArtifacts artifacts: "build/prines_${VERSION}_x86_64-apple-darwin", fingerprint: true
+//          archiveArtifacts artifacts: "build/prines_${VERSION}_x86_64-apple-darwin", fingerprint: true
             archiveArtifacts artifacts: "${APPNAME}_${VERSION}.tar.xz", fingerprint: true
             deleteDir()
         }
