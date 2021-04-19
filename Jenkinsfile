@@ -15,7 +15,7 @@ pipeline {
                 dir ('gmp-6.2.1') {
                     sh './configure --host amd64 --enable-fat'
                     sh 'make'
-                    sh 'make check'
+//                  sh 'make check'
                     sh 'make install'
                 }
                 sh 'mkdir -p build'
