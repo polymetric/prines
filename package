@@ -44,5 +44,5 @@ case $1 in
         fi
         tar cJvf $2.tar.xz apps/
         echo "done"
-   ;;
+    ;;
 esac

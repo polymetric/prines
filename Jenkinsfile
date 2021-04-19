@@ -10,13 +10,15 @@ pipeline {
                 CROSS_TRIPLE='x86_64-unknown-linux-gnu'
             }
             steps {
+                sh 'wget https://gmplib.org/download/gmp/gmp-6.2.1.tar.xz'
+                sh 'tar xf gmp-6.2.1.tar.xz'
+                dir ('gmp-6.2.1') {
+                    sh './configure --host amd64 --enable-fat'
+                    sh 'make'
+                    sh 'make check'
+                    sh 'make install'
+                }
                 sh 'mkdir -p build'
-                sh 'set -e \
-                    && apt-get update \
-                    && apt-get install \
-                        libgmp-dev \
-                    && rm -rf /var/lib/apt/lists/ \
-                '
                 sh "\$CXX main.cpp -o build/prines_${VERSION}_${CROSS_TRIPLE} -I./include -lboinc -lboinc_api -lgmp -lgmpxx -Ofast"
                 stash includes: "build/prines_${VERSION}_${CROSS_TRIPLE}.exe", name: 'bin linux x64'
             }
