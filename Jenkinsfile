@@ -2,6 +2,7 @@ pipeline {
     agent any
     environment {
         VERSION = '2.5'
+        APPNAME = 'prines'
     }
     stages {
         stage('build linux x64') {
