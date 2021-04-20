@@ -3,7 +3,7 @@ on: [push]
 jobs:
   linux:
     name: gaming
-    runs-on: [debian-latest]
+    runs-on: [ubuntu-latest]
     container: debian
     steps:
     - uses: actions/checkout@v2
