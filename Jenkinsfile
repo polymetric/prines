@@ -89,6 +89,7 @@ pipeline {
             unstash 'bin linux x64'
 //          unstash 'bin windows x64'
 //          unstash 'bin linux arm64'
+            unstash 'package'
             archiveArtifacts artifacts: "build/prines_${VERSION}_x86_64-unknown-linux-gnu", fingerprint: true
 //          archiveArtifacts artifacts: "build/prines_${VERSION}_x86_64-windows-gnu", fingerprint: true
 //          archiveArtifacts artifacts: "build/prines_${VERSION}_aarch64-unknown-linux-gnu", fingerprint: true
