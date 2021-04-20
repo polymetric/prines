@@ -13,12 +13,9 @@ pipeline {
                 CROSS_TRIPLE='x86_64-unknown-linux-gnu'
             }
             steps {
-                // build boinc libs
-                sh 'whoami||true'
-                sh 'id||true'
-                sh 'pwd||true'
-                sh 'ls -la||true'
+                sh 'set eux'
 
+                // build boinc libs
                 sh 'rm -rf boinc'
                 sh 'git clone https://github.com/BOINC/boinc.git --depth 1'
                 dir ('boinc') {
@@ -34,7 +31,7 @@ pipeline {
                 sh 'wget https://gmplib.org/download/gmp/gmp-6.2.1.tar.xz'
                 sh 'tar xf gmp-6.2.1.tar.xz'
                 dir ('gmp-6.2.1') {
-                    sh './configure --host amd64 --enable-fat'
+                    sh './configure --host amd64 --enable-fat --enable-cxx --enable-static'
                     sh 'make'
 //                  sh 'make check'
                     sh 'make DESTDIR=/work/temproot install'
