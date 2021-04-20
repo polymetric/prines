@@ -16,6 +16,7 @@ pipeline {
             }
             steps {
                 // build boinc libs
+                sh 'rm -rf boinc'
                 sh 'git clone https://github.com/BOINC/boinc.git --depth 1'
                 dir ('boinc') {
                     sh 'git checkout 3f8135e46b725fcaf08b80c5c53db8a988a01cbf'
@@ -26,6 +27,7 @@ pipeline {
                 }
 
                 // build gmp
+                sh 'rm -rf gmp*'
                 sh 'wget https://gmplib.org/download/gmp/gmp-6.2.1.tar.xz'
                 sh 'tar xf gmp-6.2.1.tar.xz'
                 dir ('gmp-6.2.1') {
