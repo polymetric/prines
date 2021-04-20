@@ -14,6 +14,7 @@ pipeline {
             }
             steps {
                 sh 'set eux'
+                sh "NUM_CPUS=$(lscpu | grep -E \\^CPU\\\\(s\\\\): | awk '{print $2}')"
 
                 // build boinc libs
                 sh 'rm -rf boinc'
@@ -41,7 +42,7 @@ pipeline {
                 sh 'mkdir -p build'
                 sh "\$CXX main.cpp -o build/prines_${VERSION}_${CROSS_TRIPLE} -I/work/temproot/usr/local/include -L/work/temproot/usr/local/lib -pthread -lboinc_api -lboinc -lgmp -lgmpxx -Ofast -static"
                 // assert that the resulting executable is fully static
-                sh "[ \$(ldd build/prine_${VERSION}_${CROSS_TRIPLE} | xargs) = 'not a dynamic executable' ]"
+                sh "[ \$(ldd build/prines_${VERSION}_${CROSS_TRIPLE} | xargs) = 'not a dynamic executable' ]"
                 stash includes: "build/prines_${VERSION}_${CROSS_TRIPLE}.exe", name: 'bin linux x64'
             }
         }
