@@ -10,16 +10,29 @@ pipeline {
                 CROSS_TRIPLE='x86_64-unknown-linux-gnu'
             }
             steps {
+                // build boinc libs
+                sh 'git clone https://github.com/BOINC/boinc.git --depth 1'
+                dir ('boinc') {
+                    sh 'git checkout 3f8135e46b725fcaf08b80c5c53db8a988a01cbf'
+                    sh './_autosetup'
+                    sh './configure --disable-client --disable-server --disable-fcgi --disable-manager --enable-generic-processor --enable-libraries --enable-install-headers --enable-static'
+                    sh 'make'
+                    sh 'make DESTDIR=/work/temproot'
+                }
+
+                // build gmp
                 sh 'wget https://gmplib.org/download/gmp/gmp-6.2.1.tar.xz'
                 sh 'tar xf gmp-6.2.1.tar.xz'
                 dir ('gmp-6.2.1') {
                     sh './configure --host amd64 --enable-fat'
                     sh 'make'
 //                  sh 'make check'
-                    sh 'make install'
+                    sh 'make DESTDIR=/work/temproot'
                 }
+
+                // build prines
                 sh 'mkdir -p build'
-                sh "\$CXX main.cpp -o build/prines_${VERSION}_${CROSS_TRIPLE} -I./include -lboinc -lboinc_api -lgmp -lgmpxx -Ofast"
+                sh "\$CXX main.cpp -o build/prines_${VERSION}_${CROSS_TRIPLE} -I/work/temproot/usr/local/include -L/work/temproot/usr/local/lib -lboinc -lboinc_api -lgmp -lgmpxx -Ofast -static"
                 stash includes: "build/prines_${VERSION}_${CROSS_TRIPLE}.exe", name: 'bin linux x64'
             }
         }
