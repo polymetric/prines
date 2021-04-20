@@ -78,7 +78,7 @@ pipeline {
                 sh "./package add-version ${APPNAME} ${VERSION} x86_64-pc-linux-gnu build/prines_${VERSION}_x86_64-unknown-linux-gnu"
 //              sh "./package add-version ${APPNAME} ${VERSION} windows_x86_64 build/prines_${VERSION}_x86_64-windos-gnu"
 //              sh "./package add-version ${APPNAME} ${VERSION} windows_x86_64 build/prines_${VERSION}_x86_64-windos-gnu"
-                sh "./package archive ${APPNAME}_${VERSION}.tar.xz"
+                sh "./package archive ${APPNAME}_${VERSION}"
                 stash includes: "${APPNAME}_${VERSION}.tar.xz", name: 'package'
             }
         }
