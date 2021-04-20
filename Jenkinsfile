@@ -17,7 +17,7 @@ pipeline {
                     sh './_autosetup'
                     sh './configure --disable-client --disable-server --disable-fcgi --disable-manager --enable-generic-processor --enable-libraries --enable-install-headers --enable-static'
                     sh 'make'
-                    sh 'make DESTDIR=/work/temproot'
+                    sh 'make DESTDIR=/work/temproot install'
                 }
 
                 // build gmp
@@ -27,7 +27,7 @@ pipeline {
                     sh './configure --host amd64 --enable-fat'
                     sh 'make'
 //                  sh 'make check'
-                    sh 'make DESTDIR=/work/temproot'
+                    sh 'make DESTDIR=/work/temproot install'
                 }
 
                 // build prines
