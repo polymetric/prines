@@ -34,7 +34,7 @@ pipeline {
                 sh 'wget https://gmplib.org/download/gmp/gmp-6.2.1.tar.xz'
                 sh 'tar xf gmp-6.2.1.tar.xz'
                 dir ('gmp-6.2.1') {
-                    sh './configure --host amd64 --enable-fat --enable-cxx --enable-static'
+                    sh "./configure --host ${CROSS_TRIPLE} --enable-fat --enable-cxx --enable-static"
                     sh 'make -j\${NUM_CPUS}'
 //                  sh 'make check'
                     sh 'make DESTDIR=/work/temproot install'
@@ -77,7 +77,7 @@ pipeline {
                 sh 'wget https://gmplib.org/download/gmp/gmp-6.2.1.tar.xz'
                 sh 'tar xf gmp-6.2.1.tar.xz'
                 dir ('gmp-6.2.1') {
-                    sh './configure --host amd64 --enable-fat --enable-cxx --enable-static'
+                    sh "./configure --host ${CROSS_TRIPLE} --enable-fat --enable-cxx --enable-static"
                     sh 'make -j\${NUM_CPUS}'
 //                  sh 'make check'
                     sh 'make DESTDIR=/work/temproot install'
