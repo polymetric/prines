@@ -16,6 +16,7 @@ pipeline {
             }
             steps {
                 // build boinc libs
+                sh 'whoami'
                 sh 'rm -rf boinc'
                 sh 'git clone https://github.com/BOINC/boinc.git --depth 1'
                 dir ('boinc') {
