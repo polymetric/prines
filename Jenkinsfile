@@ -10,7 +10,7 @@ pipeline {
             }
         }
         stage('build linux x64') {
-            agent { docker { image 'dockcross/linux-x64' } }
+            agent { docker { image 'dockcross/linux-x64' args '-u root:root' } }
             environment {
                 CROSS_TRIPLE='x86_64-unknown-linux-gnu'
             }
