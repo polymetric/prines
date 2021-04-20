@@ -16,7 +16,7 @@ pipeline {
             }
             steps {
                 // build boinc libs
-                sh 'whoami|| rue'
+                sh 'whoami||true'
                 sh 'id||true'
                 sh 'pwd||true'
                 sh 'ls -la||true'
