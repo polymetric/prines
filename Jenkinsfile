@@ -24,7 +24,7 @@ pipeline {
                 dir ('boinc') {
                     sh 'git checkout 3f8135e46b725fcaf08b80c5c53db8a988a01cbf'
                     sh './_autosetup'
-                    sh './configure --disable-client --disable-server --disable-fcgi --disable-manager --enable-generic-processor --enable-libraries --enable-install-headers --enable-static'
+                    sh "./configure --disable-client --disable-server --disable-fcgi --disable-manager --enable-generic-processor --enable-libraries --enable-install-headers --enable-static --host=${CROSS_TRIPLE}"
                     sh 'make -j\${NUM_CPUS}'
                     sh 'make DESTDIR=/work/temproot install'
                 }
@@ -67,7 +67,7 @@ pipeline {
                 dir ('boinc') {
                     sh 'git checkout 3f8135e46b725fcaf08b80c5c53db8a988a01cbf'
                     sh './_autosetup'
-                    sh './configure --disable-client --disable-server --disable-fcgi --disable-manager --enable-generic-processor --enable-libraries --enable-install-headers --enable-static'
+                    sh "./configure --disable-client --disable-server --disable-fcgi --disable-manager --enable-generic-processor --enable-libraries --enable-install-headers --enable-static --host=${CROSS_TRIPLE}"
                     sh 'make -j\${NUM_CPUS}'
                     sh 'make DESTDIR=/work/temproot install'
                 }
