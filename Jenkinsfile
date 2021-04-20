@@ -14,7 +14,11 @@ pipeline {
             }
             steps {
                 sh 'set eux'
-                sh "NUM_CPUS=\$(lscpu | grep -E '^CPU(s):' | awk '{print \$2}')"
+
+                sh "NUM_CPUS=\$(lscpu | grep -E '^CPU\(s\):' | awk '{print \$2}')"
+                sh 'echo \$NUM_CPUS'
+                sh "NUM_CPUS=\$(lscpu | grep -E '^CPU\\(s\\):' | awk '{print \$2}')"
+                sh 'echo \$NUM_CPUS'
 
                 // build boinc libs
                 sh 'rm -rf boinc'
