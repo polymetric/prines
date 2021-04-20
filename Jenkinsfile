@@ -16,7 +16,6 @@ pipeline {
                 sh 'set eux'
 
                 sh "NUM_CPUS=\$(lscpu | grep -E '^CPU\\(s\\):' | awk '{print \$2}')"
-                sh 'echo \$NUM_CPUS'
 
                 // build boinc libs
                 sh 'rm -rf boinc'
@@ -25,7 +24,7 @@ pipeline {
                     sh 'git checkout 3f8135e46b725fcaf08b80c5c53db8a988a01cbf'
                     sh './_autosetup'
                     sh './configure --disable-client --disable-server --disable-fcgi --disable-manager --enable-generic-processor --enable-libraries --enable-install-headers --enable-static'
-                    sh 'make'
+                    sh 'make -j\${NUM_CPUS}'
                     sh 'make DESTDIR=/work/temproot install'
                 }
 
@@ -35,7 +34,7 @@ pipeline {
                 sh 'tar xf gmp-6.2.1.tar.xz'
                 dir ('gmp-6.2.1') {
                     sh './configure --host amd64 --enable-fat --enable-cxx --enable-static'
-                    sh 'make'
+                    sh 'make -j\${NUM_CPUS}'
 //                  sh 'make check'
                     sh 'make DESTDIR=/work/temproot install'
                 }
