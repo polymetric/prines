@@ -3,6 +3,8 @@ pipeline {
     environment {
         VERSION = '2.5'
         APPNAME = 'prines'
+        GMP_VERSION = '6.2.1'
+        BOINC_VERSION = '3f8135e46b725fcaf08b80c5c53db8a988a01cbf'
     }
     stages {
         stage('build linux x64') {
@@ -20,9 +22,9 @@ pipeline {
 
                 // build boinc libs
                 sh 'rm -rf boinc'
-                sh 'git clone https://github.com/BOINC/boinc.git --depth 1'
+                sh 'git clone https://github.com/BOINC/boinc.git'
                 dir ('boinc') {
-                    sh 'git checkout 3f8135e46b725fcaf08b80c5c53db8a988a01cbf'
+                    sh "git checkout ${BOINC_VERSION}"
                     sh './_autosetup'
                     sh "./configure --disable-client --disable-server --disable-fcgi --disable-manager --enable-generic-processor --enable-libraries --enable-install-headers --enable-static --host=${CROSS_TRIPLE}"
                     sh 'make -j\${NUM_CPUS}'
@@ -31,9 +33,9 @@ pipeline {
 
                 // build gmp
                 sh 'rm -rf gmp*'
-                sh 'wget https://gmplib.org/download/gmp/gmp-6.2.1.tar.xz'
-                sh 'tar xf gmp-6.2.1.tar.xz'
-                dir ('gmp-6.2.1') {
+                sh 'wget https://gmplib.org/download/gmp/gmp-${GMP_VERSION}.tar.xz'
+                sh 'tar xf gmp-${GMP_VERSION}.tar.xz'
+                dir ('gmp-${GMP_VERSION}') {
                     sh "./configure --host ${CROSS_TRIPLE} --enable-fat --enable-cxx --enable-static"
                     sh 'make -j\${NUM_CPUS}'
 //                  sh 'make check'
@@ -63,9 +65,9 @@ pipeline {
 
                 // build boinc libs
                 sh 'rm -rf boinc'
-                sh 'git clone https://github.com/BOINC/boinc.git --depth 1'
+                sh 'git clone https://github.com/BOINC/boinc.git'
                 dir ('boinc') {
-                    sh 'git checkout 3f8135e46b725fcaf08b80c5c53db8a988a01cbf'
+                    sh "git checkout ${BOINC_VERSION}"
                     sh './_autosetup'
                     sh "./configure --disable-client --disable-server --disable-fcgi --disable-manager --enable-generic-processor --enable-libraries --enable-install-headers --enable-static --host=${CROSS_TRIPLE}"
                     sh 'make -j\${NUM_CPUS}'
@@ -74,9 +76,9 @@ pipeline {
 
                 // build gmp
                 sh 'rm -rf gmp*'
-                sh 'wget https://gmplib.org/download/gmp/gmp-6.2.1.tar.xz'
-                sh 'tar xf gmp-6.2.1.tar.xz'
-                dir ('gmp-6.2.1') {
+                sh 'wget https://gmplib.org/download/gmp/gmp-${GMP_VERSION}.tar.xz'
+                sh 'tar xf gmp-${GMP_VERSION}.tar.xz'
+                dir ('gmp-${GMP_VERSION}') {
                     sh "./configure --host ${CROSS_TRIPLE} --enable-fat --enable-cxx --enable-static"
                     sh 'make -j\${NUM_CPUS}'
 //                  sh 'make check'
@@ -106,9 +108,9 @@ pipeline {
 
                 // build boinc libs
                 sh 'rm -rf boinc'
-                sh 'git clone https://github.com/BOINC/boinc.git --depth 1'
+                sh 'git clone https://github.com/BOINC/boinc.git'
                 dir ('boinc') {
-                    sh 'git checkout 3f8135e46b725fcaf08b80c5c53db8a988a01cbf'
+                    sh "git checkout ${BOINC_VERSION}"
                     sh './_autosetup'
                     sh "./configure --disable-client --disable-server --disable-fcgi --disable-manager --enable-generic-processor --enable-libraries --enable-install-headers --enable-static --host=${CROSS_TRIPLE}"
                     sh 'make -j\${NUM_CPUS}'
@@ -117,9 +119,9 @@ pipeline {
 
                 // build gmp
                 sh 'rm -rf gmp*'
-                sh 'wget https://gmplib.org/download/gmp/gmp-6.2.1.tar.xz'
-                sh 'tar xf gmp-6.2.1.tar.xz'
-                dir ('gmp-6.2.1') {
+                sh 'wget https://gmplib.org/download/gmp/gmp-${GMP_VERSION}.tar.xz'
+                sh 'tar xf gmp-${GMP_VERSION}.tar.xz'
+                dir ('gmp-${GMP_VERSION}') {
                     sh "./configure --host ${CROSS_TRIPLE} --enable-fat --enable-cxx --enable-static"
                     sh 'make -j\${NUM_CPUS}'
 //                  sh 'make check'
@@ -152,9 +154,9 @@ pipeline {
                 // we just use the pre-compiled one in the include directory
                 // for now
 //              sh 'rm -rf boinc'
-//              sh 'git clone https://github.com/BOINC/boinc.git --depth 1'
+//              sh 'git clone https://github.com/BOINC/boinc.git'
 //              dir ('boinc') {
-//                  sh 'git checkout 3f8135e46b725fcaf08b80c5c53db8a988a01cbf'
+//                  sh "git checkout ${BOINC_VERSION}"
 //                  sh './_autosetup'
 //                  sh "./configure --disable-client --disable-server --disable-fcgi --disable-manager --enable-generic-processor --enable-libraries --enable-install-headers --enable-static --host=${CROSS_TRIPLE}"
 //                  sh 'make -j\${NUM_CPUS}'
@@ -163,9 +165,9 @@ pipeline {
 
                 // build gmp
                 sh 'rm -rf gmp*'
-                sh 'wget https://gmplib.org/download/gmp/gmp-6.2.1.tar.xz'
-                sh 'tar xf gmp-6.2.1.tar.xz'
-                dir ('gmp-6.2.1') {
+                sh 'wget https://gmplib.org/download/gmp/gmp-${GMP_VERSION}.tar.xz'
+                sh 'tar xf gmp-${GMP_VERSION}.tar.xz'
+                dir ('gmp-${GMP_VERSION}') {
                     sh "./configure --host ${CROSS_TRIPLE} --disable-assembly --enable-cxx --enable-static"
                     sh 'make -j\${NUM_CPUS}'
                     //sh 'make check'
