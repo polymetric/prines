@@ -3,7 +3,7 @@ pipeline {
     environment {
         VERSION = '2.5'
         APPNAME = 'prines'
-        GMP_VERSION = 6.2.1'
+        GMP_VERSION = '6.2.1'
         BOINC_VERSION = '3f8135e46b725fcaf08b80c5c53db8a988a01cbf'
     }
     stages {
