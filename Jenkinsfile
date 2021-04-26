@@ -14,11 +14,13 @@ pipeline {
             } }
             environment {
                 CROSS_TRIPLE='x86_64-unknown-linux-gnu'
+				NUM_CPUS="""${sh(
+                    returnStdout: true,
+                    script: "lscpu | grep -E '^CPU\\(s\\):' | awk '{print \$2}'"
+                )}"""
             }
             steps {
                 sh 'set eux'
-
-                sh "NUM_CPUS=\$(lscpu | grep -E '^CPU\\(s\\):' | awk '{print \$3}')"
 
                 // build boinc libs
                 sh 'rm -rf boinc'
@@ -57,11 +59,13 @@ pipeline {
             } }
             environment {
                 CROSS_TRIPLE='aarch64-unknown-linux-gnu'
+				NUM_CPUS="""${sh(
+                    returnStdout: true,
+                    script: "lscpu | grep -E '^CPU\\(s\\):' | awk '{print \$2}'"
+                )}"""
             }
             steps {
                 sh 'set eux'
-
-                sh "NUM_CPUS=\$(lscpu | grep -E '^CPU\\(s\\):' | awk '{print \$2}')"
 
                 // build boinc libs
                 sh 'rm -rf boinc'
@@ -100,11 +104,13 @@ pipeline {
             } }
             environment {
                 CROSS_TRIPLE='arm-unknown-linux-gnueabihf'
+				NUM_CPUS="""${sh(
+                    returnStdout: true,
+                    script: "lscpu | grep -E '^CPU\\(s\\):' | awk '{print \$2}'"
+                )}"""
             }
             steps {
                 sh 'set eux'
-
-                sh "NUM_CPUS=\$(lscpu | grep -E '^CPU\\(s\\):' | awk '{print \$2}')"
 
                 // build boinc libs
                 sh 'rm -rf boinc'
@@ -143,11 +149,13 @@ pipeline {
             } }
             environment {
                 CROSS_TRIPLE='x86_64-windows-gnu'
+				NUM_CPUS="""${sh(
+                    returnStdout: true,
+                    script: "lscpu | grep -E '^CPU\\(s\\):' | awk '{print \$2}'"
+                )}"""
             }
             steps {
                 sh 'set eux'
-
-                sh "NUM_CPUS=\$(lscpu | grep -E '^CPU\\(s\\):' | awk '{print \$2}')"
 
                 // build boinc libs
                 // this is commented out cause cross compiling is broken
