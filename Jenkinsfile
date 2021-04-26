@@ -134,7 +134,7 @@ pipeline {
                 // assert that the resulting executable is fully static
                 sh "[ \"\$(ldd build/prines_${VERSION}_${CROSS_TRIPLE} | xargs)\" = 'not a dynamic executable' ]"
                 stash includes: "build/prines_${VERSION}_${CROSS_TRIPLE}", name: 'bin linux armv7'
-            
+            }
         }
         stage('build windows x64') {
             agent { docker {
