@@ -3,7 +3,7 @@ pipeline {
     environment {
         VERSION = '2.5'
         APPNAME = 'prines'
-        GMP_VERSION = '6.2.1'
+        GMP_VERSION = 6.2.1'
         BOINC_VERSION = '3f8135e46b725fcaf08b80c5c53db8a988a01cbf'
     }
     stages {
@@ -18,7 +18,7 @@ pipeline {
             steps {
                 sh 'set eux'
 
-                sh "NUM_CPUS=\$(lscpu | grep -E '^CPU\\(s\\):' | awk '{print \$2}')"
+                sh "NUM_CPUS=\$(lscpu | grep -E '^CPU\\(s\\):' | awk '{print \$3}')"
 
                 // build boinc libs
                 sh 'rm -rf boinc'
@@ -99,7 +99,7 @@ pipeline {
                 args '-u root:root'
             } }
             environment {
-                CROSS_TRIPLE='aarch64-unknown-linux-gnu'
+                CROSS_TRIPLE='arm-unknown-linux-gnueabihf'
             }
             steps {
                 sh 'set eux'
@@ -134,7 +134,7 @@ pipeline {
                 // assert that the resulting executable is fully static
                 sh "[ \"\$(ldd build/prines_${VERSION}_${CROSS_TRIPLE} | xargs)\" = 'not a dynamic executable' ]"
                 stash includes: "build/prines_${VERSION}_${CROSS_TRIPLE}", name: 'bin linux armv7'
-            }
+            
         }
         stage('build windows x64') {
             agent { docker {
