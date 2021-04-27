@@ -186,7 +186,7 @@ pipeline {
 
                 // install gmp
                 sh "wget https://repo.msys2.org/mingw/x86_64/mingw-w64-x86_64-gmp-${GMP_VERSION}-2-any.pkg.tar.zst"
-                sh "tar -I zstd -xf mingw-w64-x86_64-gmp-${GMP_VERSION}-2-any.pkg.tar.zstd"
+                sh "tar -I zstd -xf mingw-w64-x86_64-gmp-${GMP_VERSION}-2-any.pkg.tar.zst"
 
                 // build app
                 sh 'mkdir -p build'
