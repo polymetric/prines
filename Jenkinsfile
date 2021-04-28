@@ -191,7 +191,7 @@ pipeline {
                 // build app
                 sh 'mkdir -p build'
                 // use precompiled boinc libs
-                sh "\$CXX main.cpp -o build/${APPNAME}_${VERSION}_${CROSS_TRIPLE}.exe -I/work/temproot/usr/local/include -L/work/temproot/usr/local/lib -L./include/boinc/lib/win -L./mingw64/lib -I./mingw64/include -pthread -lboinc_api -lboinc -lgmp -lgmpxx -Ofast -static"
+                sh "\$CXX main.cpp -o build/${APPNAME}_${VERSION}_${CROSS_TRIPLE}.exe -I/work/temproot/usr/local/include -L/work/temproot/usr/local/lib -L./include/boinc/lib/win -L./mingw64/lib -I./mingw64/include -I./include -pthread -lboinc_api -lboinc -lgmp -lgmpxx -Ofast -static"
                 // assert that the resulting executable is fully static
                 sh "[ \"\$(ldd build/${APPNAME}_${VERSION}_${CROSS_TRIPLE}.exe | xargs)\" = 'not a dynamic executable' ]"
                 stash includes: "build/${APPNAME}_${VERSION}_${CROSS_TRIPLE}.exe", name: 'bin windows x64'
