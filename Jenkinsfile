@@ -204,7 +204,7 @@ pipeline {
                 unstash 'bin linux arm64'
 //              unstash 'bin linux armv7'
                 sh "./package add-version ${APPNAME} ${VERSION} x86_64-pc-linux-gnu build/${APPNAME}_${VERSION}_x86_64-unknown-linux-gnu"
-                sh "./package add-version ${APPNAME} ${VERSION} windows_x86_64 build/${APPNAME}_${VERSION}_x86_64-windows-gnu"
+                sh "./package add-version ${APPNAME} ${VERSION} windows_x86_64 build/${APPNAME}_${VERSION}_x86_64-windows"
                 sh "./package add-version ${APPNAME} ${VERSION} aarch64-unknown-linux-gnu build/${APPNAME}_${VERSION}_aarch64-unknown-linux-gnu"
 //              sh "./package add-version ${APPNAME} ${VERSION} arm-unknown-linux-gnueabihf build/${APPNAME}_${VERSION}_arm-unknown-linux-gnueabihf"
                 sh "./package archive ${APPNAME}_${VERSION}"
